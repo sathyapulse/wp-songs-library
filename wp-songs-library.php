@@ -58,6 +58,21 @@ register_deactivation_hook( __FILE__, 'deactivate_wp_songs_library' );
 require plugin_dir_path( __FILE__ ) . 'includes/class-wp-songs-library.php';
 
 /**
+ * Registers the Taxonomies for the songs and albums.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-wp-songs-library-taxonomy.php';
+
+/**
+ * Registers the Metaboxes for the songs and albums.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-wp-songs-library-metabox.php';
+
+/**
+ * Registers the Custom Post Type for the songs and albums.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-wp-songs-library-cpt.php';
+
+/**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
