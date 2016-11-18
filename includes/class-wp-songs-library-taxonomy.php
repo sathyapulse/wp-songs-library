@@ -4,32 +4,48 @@
  * Class Wp_Songs_Library_Taxonomy
  */
 class Wp_Songs_Library_Taxonomy {
-    public function __construct() {
-        // Hook into the init action and call register_song_taxonomies when it fires.
-        add_action( 'init', [ $this, 'register_album_taxonomy' ] );
-        add_action( 'init', [ $this, 'register_person_taxonomy' ] );
-        add_action( 'save_post_album', [ $this, 'insert_album_taxonomy' ], 10, 3 );
+    /**
+     * The ID of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $plugin_name    The ID of this plugin.
+     */
+    private $plugin_name;
+
+    /**
+     * The version of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $version    The current version of this plugin.
+     */
+    private $version;
+
+    public function __construct( $plugin_name, $version ) {
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
     }
 
     public function register_album_taxonomy() {
         // Add new taxonomy, NOT hierarchical (like tags)
         $labels = array(
-            'name'                       => _x( 'Albums', 'taxonomy general name', 'wp-songs-library' ),
-            'singular_name'              => _x( 'Album', 'taxonomy singular name', 'wp-songs-library' ),
-            'search_items'               => __( 'Search Albums', 'wp-songs-library' ),
-            'popular_items'              => __( 'Popular Albums', 'wp-songs-library' ),
-            'all_items'                  => __( 'All Albums', 'wp-songs-library' ),
+            'name'                       => _x( 'Albums', 'taxonomy general name', $this->plugin_name ),
+            'singular_name'              => _x( 'Album', 'taxonomy singular name', $this->plugin_name ),
+            'search_items'               => __( 'Search Albums', $this->plugin_name ),
+            'popular_items'              => __( 'Popular Albums', $this->plugin_name ),
+            'all_items'                  => __( 'All Albums', $this->plugin_name ),
             'parent_item'                => null,
             'parent_item_colon'          => null,
-            'edit_item'                  => __( 'Edit Album', 'wp-songs-library' ),
-            'update_item'                => __( 'Update Album', 'wp-songs-library' ),
-            'add_new_item'               => __( 'Add New Album', 'wp-songs-library' ),
-            'new_item_name'              => __( 'New Album Name', 'wp-songs-library' ),
-            'separate_items_with_commas' => __( 'Separate albums with commas', 'wp-songs-library' ),
-            'add_or_remove_items'        => __( 'Add or remove albums', 'wp-songs-library' ),
-            'choose_from_most_used'      => __( 'Choose from the most used albums', 'wp-songs-library' ),
-            'not_found'                  => __( 'No albums found.', 'wp-songs-library' ),
-            'menu_name'                  => __( 'Albums', 'wp-songs-library' ),
+            'edit_item'                  => __( 'Edit Album', $this->plugin_name ),
+            'update_item'                => __( 'Update Album', $this->plugin_name ),
+            'add_new_item'               => __( 'Add New Album', $this->plugin_name ),
+            'new_item_name'              => __( 'New Album Name', $this->plugin_name ),
+            'separate_items_with_commas' => __( 'Separate albums with commas', $this->plugin_name ),
+            'add_or_remove_items'        => __( 'Add or remove albums', $this->plugin_name ),
+            'choose_from_most_used'      => __( 'Choose from the most used albums', $this->plugin_name ),
+            'not_found'                  => __( 'No albums found.', $this->plugin_name ),
+            'menu_name'                  => __( 'Albums', $this->plugin_name ),
         );
 
         $args = array(
@@ -49,22 +65,22 @@ class Wp_Songs_Library_Taxonomy {
     public function register_person_taxonomy() {
         // Add new taxonomy, NOT hierarchical (like tags)
         $labels = array(
-            'name'                       => _x( 'Persons', 'taxonomy general name', 'wp-songs-library' ),
-            'singular_name'              => _x( 'Person', 'taxonomy singular name', 'wp-songs-library' ),
-            'search_items'               => __( 'Search Persons', 'wp-songs-library' ),
-            'popular_items'              => __( 'Popular Persons', 'wp-songs-library' ),
-            'all_items'                  => __( 'All Persons', 'wp-songs-library' ),
+            'name'                       => _x( 'Persons', 'taxonomy general name', $this->plugin_name ),
+            'singular_name'              => _x( 'Person', 'taxonomy singular name', $this->plugin_name ),
+            'search_items'               => __( 'Search Persons', $this->plugin_name ),
+            'popular_items'              => __( 'Popular Persons', $this->plugin_name ),
+            'all_items'                  => __( 'All Persons', $this->plugin_name ),
             'parent_item'                => null,
             'parent_item_colon'          => null,
-            'edit_item'                  => __( 'Edit Person', 'wp-songs-library' ),
-            'update_item'                => __( 'Update Person', 'wp-songs-library' ),
-            'add_new_item'               => __( 'Add New Person', 'wp-songs-library' ),
-            'new_item_name'              => __( 'New Person Name', 'wp-songs-library' ),
-            'separate_items_with_commas' => __( 'Separate persons with commas', 'wp-songs-library' ),
-            'add_or_remove_items'        => __( 'Add or remove person', 'wp-songs-library' ),
-            'choose_from_most_used'      => __( 'Choose from the most used persons', 'wp-songs-library' ),
-            'not_found'                  => __( 'No persons found.', 'wp-songs-library' ),
-            'menu_name'                  => __( 'Persons', 'wp-songs-library' ),
+            'edit_item'                  => __( 'Edit Person', $this->plugin_name ),
+            'update_item'                => __( 'Update Person', $this->plugin_name ),
+            'add_new_item'               => __( 'Add New Person', $this->plugin_name ),
+            'new_item_name'              => __( 'New Person Name', $this->plugin_name ),
+            'separate_items_with_commas' => __( 'Separate persons with commas', $this->plugin_name ),
+            'add_or_remove_items'        => __( 'Add or remove person', $this->plugin_name ),
+            'choose_from_most_used'      => __( 'Choose from the most used persons', $this->plugin_name ),
+            'not_found'                  => __( 'No persons found.', $this->plugin_name ),
+            'menu_name'                  => __( 'Persons', $this->plugin_name ),
         );
 
         $args = array(
@@ -102,7 +118,3 @@ class Wp_Songs_Library_Taxonomy {
         }
     }
 }
-
-global $wp_song_library_taxonomy;
-
-$wp_song_library_taxonomy = new Wp_Songs_Library_Taxonomy();

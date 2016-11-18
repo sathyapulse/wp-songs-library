@@ -5,32 +5,50 @@
  */
 class Wp_Songs_Library_Cpt {
 
-	public function __construct() {
-		add_action( 'init', array( $this, 'register_song_cpt' ) );
-		add_action( 'init', array( $this, 'register_album_cpt' ) );
+    /**
+     * The ID of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $plugin_name    The ID of this plugin.
+     */
+    private $plugin_name;
+
+    /**
+     * The version of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $version    The current version of this plugin.
+     */
+    private $version;
+
+	public function __construct( $plugin_name, $version ) {
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
 	}
 
 	public function register_song_cpt() {
 		$labels = array(
-			'name'               => _x( 'Songs', 'post type general name', 'wp-songs-library' ),
-			'singular_name'      => _x( 'Song', 'post type singular name', 'wp-songs-library' ),
-			'menu_name'          => _x( 'Songs', 'admin menu', 'wp-songs-library' ),
-			'name_admin_bar'     => _x( 'Song', 'add new on admin bar', 'wp-songs-library' ),
-			'add_new'            => _x( 'Add New', 'song', 'wp-songs-library' ),
-			'add_new_item'       => __( 'Add New Song', 'wp-songs-library' ),
-			'new_item'           => __( 'New Song', 'wp-songs-library' ),
-			'edit_item'          => __( 'Edit Song', 'wp-songs-library' ),
-			'view_item'          => __( 'View Song', 'wp-songs-library' ),
-			'all_items'          => __( 'All Songs', 'wp-songs-library' ),
-			'search_items'       => __( 'Search Songs', 'wp-songs-library' ),
-			'parent_item_colon'  => __( 'Parent Songs:', 'wp-songs-library' ),
-			'not_found'          => __( 'No songs found.', 'wp-songs-library' ),
-			'not_found_in_trash' => __( 'No songs found in Trash.', 'wp-songs-library' )
+			'name'               => _x( 'Songs', 'post type general name', $this->plugin_name ),
+			'singular_name'      => _x( 'Song', 'post type singular name', $this->plugin_name ),
+			'menu_name'          => _x( 'Songs', 'admin menu', $this->plugin_name ),
+			'name_admin_bar'     => _x( 'Song', 'add new on admin bar', $this->plugin_name ),
+			'add_new'            => _x( 'Add New', 'song', $this->plugin_name ),
+			'add_new_item'       => __( 'Add New Song', $this->plugin_name ),
+			'new_item'           => __( 'New Song', $this->plugin_name ),
+			'edit_item'          => __( 'Edit Song', $this->plugin_name ),
+			'view_item'          => __( 'View Song', $this->plugin_name ),
+			'all_items'          => __( 'All Songs', $this->plugin_name ),
+			'search_items'       => __( 'Search Songs', $this->plugin_name ),
+			'parent_item_colon'  => __( 'Parent Songs:', $this->plugin_name ),
+			'not_found'          => __( 'No songs found.', $this->plugin_name ),
+			'not_found_in_trash' => __( 'No songs found in Trash.', $this->plugin_name )
 		);
 
 		$args = array(
 			'labels'             => $labels,
-			'description'        => __( 'Description.', 'wp-songs-library' ),
+			'description'        => __( 'Description.', $this->plugin_name ),
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
@@ -50,25 +68,25 @@ class Wp_Songs_Library_Cpt {
 
 	public function register_album_cpt() {
         $labels = array(
-            'name'               => _x( 'Albums', 'post type general name', 'wp-songs-library' ),
-            'singular_name'      => _x( 'Album', 'post type singular name', 'wp-songs-library' ),
-            'menu_name'          => _x( 'Albums', 'admin menu', 'wp-songs-library' ),
-            'name_admin_bar'     => _x( 'Album', 'add new on admin bar', 'wp-songs-library' ),
-            'add_new'            => _x( 'Add New', 'album', 'wp-songs-library' ),
-            'add_new_item'       => __( 'Add New Album', 'wp-songs-library' ),
-            'new_item'           => __( 'New Album', 'wp-songs-library' ),
-            'edit_item'          => __( 'Edit Album', 'wp-songs-library' ),
-            'view_item'          => __( 'View Album', 'wp-songs-library' ),
-            'all_items'          => __( 'All Albums', 'wp-songs-library' ),
-            'search_items'       => __( 'Search Albums', 'wp-songs-library' ),
-            'parent_item_colon'  => __( 'Parent Albums:', 'wp-songs-library' ),
-            'not_found'          => __( 'No albums found.', 'wp-songs-library' ),
-            'not_found_in_trash' => __( 'No albums found in Trash.', 'wp-songs-library' )
+            'name'               => _x( 'Albums', 'post type general name', $this->plugin_name ),
+            'singular_name'      => _x( 'Album', 'post type singular name', $this->plugin_name ),
+            'menu_name'          => _x( 'Albums', 'admin menu', $this->plugin_name ),
+            'name_admin_bar'     => _x( 'Album', 'add new on admin bar', $this->plugin_name ),
+            'add_new'            => _x( 'Add New', 'album', $this->plugin_name ),
+            'add_new_item'       => __( 'Add New Album', $this->plugin_name ),
+            'new_item'           => __( 'New Album', $this->plugin_name ),
+            'edit_item'          => __( 'Edit Album', $this->plugin_name ),
+            'view_item'          => __( 'View Album', $this->plugin_name ),
+            'all_items'          => __( 'All Albums', $this->plugin_name ),
+            'search_items'       => __( 'Search Albums', $this->plugin_name ),
+            'parent_item_colon'  => __( 'Parent Albums:', $this->plugin_name ),
+            'not_found'          => __( 'No albums found.', $this->plugin_name ),
+            'not_found_in_trash' => __( 'No albums found in Trash.', $this->plugin_name )
         );
 
         $args = array(
             'labels'             => $labels,
-            'description'        => __( 'Description.', 'wp-songs-library' ),
+            'description'        => __( 'Description.', $this->plugin_name ),
             'public'             => true,
             'publicly_queryable' => true,
             'show_ui'            => true,
@@ -85,7 +103,3 @@ class Wp_Songs_Library_Cpt {
         register_post_type( 'album', $args );
     }
 }
-
-global $wp_song_library_cpt;
-
-$wp_song_library_cpt = new Wp_Songs_Library_Cpt();

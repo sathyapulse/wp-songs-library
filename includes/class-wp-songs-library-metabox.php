@@ -4,15 +4,33 @@
  * Class Wp_Songs_Library_Metabox
  */
 class Wp_Songs_Library_Metabox {
-    public function __construct() {
-        add_action( 'add_meta_boxes_album', [ $this, 'register_album_metaboxes' ] );
-        add_action( 'add_meta_boxes_song', [ $this, 'register_song_metaboxes' ] );
+    /**
+     * The ID of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $plugin_name    The ID of this plugin.
+     */
+    private $plugin_name;
+
+    /**
+     * The version of this plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @var      string    $version    The current version of this plugin.
+     */
+    private $version;
+
+    public function __construct( $plugin_name, $version ) {
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
     }
 
     public function register_album_metaboxes() {
         add_meta_box(
             'wsl-album-year',
-            esc_html__( 'Album year', 'wp-songs-library' ),
+            esc_html__( 'Album year', $this->plugin_name ),
             [$this, 'build_album_year_metabox'],
             'album',
             'normal',
@@ -27,7 +45,7 @@ class Wp_Songs_Library_Metabox {
     public function register_song_metaboxes() {
         add_meta_box(
             'wsl-song-year',
-            esc_html__( 'Song year', 'wp-songs-library' ),
+            esc_html__( 'Song year', $this->plugin_name ),
             [$this, 'build_song_year_metabox'],
             'song',
             'normal',
@@ -39,7 +57,3 @@ class Wp_Songs_Library_Metabox {
 
     }
 }
-
-global $wp_song_library_metabox;
-
-$wp_song_library_metabox = new Wp_Songs_Library_Metabox();
