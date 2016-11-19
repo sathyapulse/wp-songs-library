@@ -76,9 +76,9 @@ class Wp_Songs_Library {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-        $this->register_taxonomy();
-        $this->register_metabox();
-        $this->register_cpt();
+		$this->register_taxonomy();
+		$this->register_metabox();
+		$this->register_cpt();
 
 	}
 
@@ -123,20 +123,20 @@ class Wp_Songs_Library {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-songs-library-public.php';
 
-        /**
-         * Registers the Taxonomies for the songs and albums.
-         */
-        require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-taxonomy.php';
+		/**
+		 * Registers the Taxonomies for the songs and albums.
+		 */
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-taxonomy.php';
 
-        /**
-         * Registers the Metaboxes for the songs and albums.
-         */
-        require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-metabox.php';
+		/**
+		 * Registers the Metaboxes for the songs and albums.
+		 */
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-metabox.php';
 
-        /**
-         * Registers the Custom Post Type for the songs and albums.
-         */
-        require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cpt.php';
+		/**
+		 * Registers the Custom Post Type for the songs and albums.
+		 */
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cpt.php';
 
 		$this->loader = new Wp_Songs_Library_Loader();
 
@@ -192,33 +192,33 @@ class Wp_Songs_Library {
 	}
 
 	private function register_taxonomy() {
-        $plugin_taxonomy = new Wp_Songs_Library_Taxonomy( $this->get_plugin_name(), $this->get_version() );
+		$plugin_taxonomy = new Wp_Songs_Library_Taxonomy( $this->get_plugin_name(), $this->get_version() );
 
-        // Hook into the init action and call register_song_taxonomies when it fires.
-        $this->loader->add_action( 'init', $plugin_taxonomy, 'register_album_taxonomy' );
-        $this->loader->add_action( 'init', $plugin_taxonomy, 'register_person_taxonomy' );
-        $this->loader->add_action( 'save_post_album', $plugin_taxonomy, 'insert_album_taxonomy' );
-    }
+		// Hook into the init action and call register_song_taxonomies when it fires.
+		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_album_taxonomy' );
+		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_person_taxonomy' );
+		$this->loader->add_action( 'save_post_album', $plugin_taxonomy, 'insert_album_taxonomy' );
+	}
 
-    /**
-     * Registers the metabox.
-     */
-    private function register_metabox() {
-        $plugin_metabox = new Wp_Songs_Library_Metabox( $this->get_plugin_name(), $this->get_version() );
+	/**
+	 * Registers the metabox.
+	 */
+	private function register_metabox() {
+		$plugin_metabox = new Wp_Songs_Library_Metabox( $this->get_plugin_name(), $this->get_version() );
 
-        $this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_album_metaboxes' );
-        $this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_song_metaboxes' );
-    }
+		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_album_metaboxes' );
+		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_song_metaboxes' );
+	}
 
-    /**
-     * Registers the custom post types.
-     */
+	/**
+	 * Registers the custom post types.
+	 */
 	private function register_cpt() {
-        $plugin_cpt = new Wp_Songs_Library_Cpt( $this->get_plugin_name(), $this->get_version() );
+		$plugin_cpt = new Wp_Songs_Library_Cpt( $this->get_plugin_name(), $this->get_version() );
 
-        $this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
-        $this->loader->add_action( 'init', $plugin_cpt, 'register_album_cpt' );
-    }
+		$this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
+		$this->loader->add_action( 'init', $plugin_cpt, 'register_album_cpt' );
+	}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
