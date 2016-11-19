@@ -1,0 +1,3 @@
+[submodule "mu-plugins"]
+	path = mu-plugins
+	url = https://github.com/Automattic/vip-mu-plugins-public.git

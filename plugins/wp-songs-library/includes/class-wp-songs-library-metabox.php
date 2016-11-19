@@ -27,33 +27,97 @@ class Wp_Songs_Library_Metabox {
 		$this->version = $version;
 	}
 
-	public function register_album_metaboxes() {
+	public function register_album_metaboxes( $post ) {
 		add_meta_box(
-			'wsl-album-year',
-			esc_html__( 'Album year', 'wp-songs-library' ),
-			[ $this, 'build_album_year_metabox' ],
+			'wsl_album_metabox',
+			esc_html__( 'Album attributes', 'wp-songs-library' ),
+			[ $this, 'build_album_metabox' ],
 			'album',
 			'normal',
 			'default'
 		);
 	}
 
-	public function build_album_year_metabox() {
+	public function register_song_metaboxes( $post ) {
+		$post_type = 'song';
+		$this->register_year_metabox( $post_type );
+	}
+
+	public function register_year_metabox( $post_type ) {
 
 	}
 
-	public function register_song_metaboxes() {
-		add_meta_box(
-			'wsl-song-year',
-			esc_html__( 'Song year', 'wp-songs-library' ),
-			[ $this, 'build_song_year_metabox' ],
-			'song',
-			'normal',
-			'default'
-		);
+	/**
+	 * Render Year Meta Box content.
+	 *
+	 * @param WP_Post $post The post object.
+	 */
+	public function build_album_metabox( $post, $metabox ) {
+		// Add an nonce field so we can check for it later.
+		wp_nonce_field( 'wsl_album_metabox', 'wsl_album_metabox_nonce' );
+
+		// Use get_post_meta to retrieve an existing value from the database.
+		$year = get_post_meta( $post->ID, 'wsl_year', true );
+
+		// Display the form, using the current value.
+		?>
+		<label for="wsl_year">
+			<?php esc_html_e( 'Enter the year', 'wp-songs-library' ); ?>
+		</label>
+		<input type="text" id="wsl_year" name="wsl_year" value="<?php echo esc_attr( $year ); ?>" size="25" />
+		<?php
 	}
 
-	public function build_song_year_metabox() {
+	/**
+	 * Save the meta when the post is saved.
+	 *
+	 * @param int $post_id The ID of the post being saved.
+	 * @return mixed
+	 */
+	public function save_album_meta( $post_id ) {
 
+		/*
+		 * We need to verify this came from the our screen and with proper authorization,
+		 * because save_post can be triggered at other times.
+		 */
+
+		// Check if our nonce is set.
+		if ( ! isset( $_POST['wsl_album_metabox_nonce'] ) ) {
+			return $post_id;
+		}
+
+		$nonce = $_POST['wsl_album_metabox_nonce'];
+
+		// Verify that the nonce is valid.
+		if ( ! wp_verify_nonce( $nonce, 'wsl_album_metabox' ) ) {
+			return $post_id;
+		}
+
+		/*
+		 * If this is an autosave, our form has not been submitted,
+		 * so we don't want to do anything.
+		 */
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+
+		// Check the user's permissions.
+		if ( 'album' == $_POST['post_type'] ) {
+			if ( ! current_user_can( 'edit_page', $post_id ) ) {
+				return $post_id;
+			}
+		} else {
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				return $post_id;
+			}
+		}
+
+		/* OK, it's safe for us to save the data now. */
+
+		// Sanitize the user input.
+		$year = sanitize_text_field( $_POST['wsl_year'] );
+
+		// Update the meta field.
+		update_post_meta( $post_id, 'wsl_year', $year );
 	}
 }

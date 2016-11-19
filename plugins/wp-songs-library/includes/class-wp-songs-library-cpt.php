@@ -59,8 +59,8 @@ class Wp_Songs_Library_Cpt {
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'taxonomies'         => [ 'album', 'category', 'post_tag' ],
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+			'taxonomies'         => [ 'album' ],
+			'supports'           => array( 'title', 'editor', 'author', 'comments' ),
 		);
 
 		register_post_type( 'song', $args );
@@ -97,7 +97,7 @@ class Wp_Songs_Library_Cpt {
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'author', 'thumbnail', 'excerpt', 'comments' ),
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'comments' ),
 		);
 
 		register_post_type( 'album', $args );

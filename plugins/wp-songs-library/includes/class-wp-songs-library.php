@@ -197,7 +197,8 @@ class Wp_Songs_Library {
 		// Hook into the init action and call register_song_taxonomies when it fires.
 		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_album_taxonomy' );
 		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_person_taxonomy' );
-		$this->loader->add_action( 'save_post_album', $plugin_taxonomy, 'insert_album_taxonomy' );
+
+		$this->loader->add_action( 'save_post_album', $plugin_taxonomy, 'insert_album_taxonomy', 10, 3 );
 	}
 
 	/**
@@ -207,7 +208,9 @@ class Wp_Songs_Library {
 		$plugin_metabox = new Wp_Songs_Library_Metabox( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_album_metaboxes' );
-		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_song_metaboxes' );
+//		$this->loader->add_action( 'add_meta_boxes_song', $plugin_metabox, 'register_song_metaboxes' );
+
+		$this->loader->add_action( 'save_post_album', $plugin_metabox, 'save_album_meta', 10, 3 );
 	}
 
 	/**
