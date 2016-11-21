@@ -208,9 +208,10 @@ class Wp_Songs_Library {
 		$plugin_metabox = new Wp_Songs_Library_Metabox( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_album_metaboxes' );
-//		$this->loader->add_action( 'add_meta_boxes_song', $plugin_metabox, 'register_song_metaboxes' );
+		$this->loader->add_action( 'add_meta_boxes_song', $plugin_metabox, 'register_song_metaboxes' );
 
 		$this->loader->add_action( 'save_post_album', $plugin_metabox, 'save_album_meta', 10, 3 );
+        $this->loader->add_action( 'save_post_song', $plugin_metabox, 'save_song_meta', 10, 3 );
 	}
 
 	/**
