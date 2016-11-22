@@ -61,7 +61,10 @@ class Wp_Songs_Library_Metabox {
 		$this->build_director_metabox( $post );
 		echo '<br/><br/>';
 
-		$this->build_starring_metabox( $post );
+		$this->build_music_director_metabox( $post );
+		echo '<br/><br/>';
+
+		$this->build_artists_metabox( $post );
 		echo '<br/><br/>';
 
 		$this->build_year_metabox( $post );
@@ -70,6 +73,15 @@ class Wp_Songs_Library_Metabox {
 	public function build_song_metabox( $post, $metabox ) {
 		// Add an nonce field so we can check for it later.
 		wp_nonce_field( 'wsl_song_metabox', 'wsl_song_metabox_nonce' );
+
+		$this->build_music_director_metabox( $post );
+		echo '<br/><br/>';
+
+		$this->build_artists_metabox( $post );
+		echo '<br/><br/>';
+
+		$this->build_lyricist_metabox( $post );
+		echo '<br/><br/>';
 
 		$this->build_year_metabox( $post );
 	}
@@ -121,9 +133,15 @@ class Wp_Songs_Library_Metabox {
 		/* OK, it's safe for us to save the data now. */
 
 		// Sanitize the user input.
+		$director = $_POST['wsl_director'];
+		$music_director = $_POST['wsl_music_director'];
+		$artists = $_POST['wsl_artists'];
 		$year = sanitize_text_field( $_POST['wsl_year'] );
 
 		// Update the meta field.
+		update_post_meta( $post_id, 'wsl_director', $director );
+		update_post_meta( $post_id, 'wsl_music_director', $music_director );
+		update_post_meta( $post_id, 'wsl_artists', $artists );
 		update_post_meta( $post_id, 'wsl_year', $year );
 	}
 
@@ -174,9 +192,15 @@ class Wp_Songs_Library_Metabox {
 		/* OK, it's safe for us to save the data now. */
 
 		// Sanitize the user input.
+		$music_director = $_POST['wsl_music_director'];
+		$artists = $_POST['wsl_artists'];
+		$lyricist = $_POST['wsl_lyricist'];
 		$year = sanitize_text_field( $_POST['wsl_year'] );
 
 		// Update the meta field.
+		update_post_meta( $post_id, 'wsl_music_director', $music_director );
+		update_post_meta( $post_id, 'wsl_artists', $artists );
+		update_post_meta( $post_id, 'wsl_lyricist', $lyricist );
 		update_post_meta( $post_id, 'wsl_year', $year );
 	}
 
@@ -184,22 +208,24 @@ class Wp_Songs_Library_Metabox {
 		// Use get_post_meta to retrieve an existing value from the database.
 		$persons = get_the_terms( $post->ID, 'person' );
 
-		if( ! empty( $persons ) ) {
+		if ( ! empty( $persons ) ) {
+			$director = get_post_meta( $post->ID, 'wsl_director', true );
 			// Display the form, using the current value.
 			?>
 			<label for="wsl_director">Select Director</label>
 			<select name="wsl_director">
+				<option value="0">Select</option>
 				<?php
 				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
 
-				foreach( $option_values as $key => $value ) {
-					if( $value == get_post_meta( $post->ID, "wsl_director", true ) ) {
+				foreach ( $option_values as $key => $value ) {
+					if ( $key == $director ) {
 						?>
-						<option selected><?php echo $value; ?></option>
+						<option selected value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 						<?php
 					} else {
 						?>
-						<option><?php echo $value; ?></option>
+						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 						<?php
 					}
 				}
@@ -207,14 +233,99 @@ class Wp_Songs_Library_Metabox {
 			</select>
 			<?php
 		} else {
-			echo 'Please tag persons in the person metabox';
+			echo 'Please tag persons in the person metabox to select Director.';
 		}
-
 	}
 
-	public function build_starring_metabox( $post ) {
+	public function build_music_director_metabox( $post ) {
+		// Use get_post_meta to retrieve an existing value from the database.
 		$persons = get_the_terms( $post->ID, 'person' );
 
+		if ( ! empty( $persons ) ) {
+			$music_director = get_post_meta( $post->ID, 'wsl_music_director', true );
+			// Display the form, using the current value.
+			?>
+			<label for="wsl_music_director">Select Music Director</label>
+			<select name="wsl_music_director">
+				<option value="0">Select</option>
+				<?php
+				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+
+				foreach ( $option_values as $key => $value ) {
+					if ( $key == $music_director ) {
+						?>
+						<option selected value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php
+					} else {
+						?>
+						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php
+					}
+				}
+				?>
+			</select>
+			<?php
+		} else {
+			echo 'Please tag persons in the person metabox to select Music Director.';
+		}
+	}
+
+	public function build_artists_metabox( $post ) {
+		$persons = get_the_terms( $post->ID, 'person' );
+
+		if ( ! empty( $persons ) ) {
+			$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+			$artists = get_post_meta( $post->ID, 'wsl_artists', true );
+			?>
+			<label for="wsl_artists">Select Artists</label>
+			<?php
+			foreach ( $option_values as $key => $value ) {
+				if ( ! empty( $artists[ $key ] ) ) {
+					?>
+					<input name="wsl_artists[<?php echo esc_attr( $key ); ?>]" type="checkbox" value="<?php echo esc_attr( $key ); ?>" checked>
+					<?php echo esc_html( $value );
+				} else {
+					?>
+					<input name="wsl_artists[<?php echo esc_attr( $key ); ?>]" type="checkbox" value="<?php echo esc_attr( $key ); ?>">
+					<?php echo esc_html( $value );
+				}
+			}
+		} else {
+			echo 'Please tag persons in the person metabox to select Artists.';
+		}
+	}
+
+	public function build_lyricist_metabox( $post ) {
+		// Use get_post_meta to retrieve an existing value from the database.
+		$persons = get_the_terms( $post->ID, 'person' );
+
+		if ( ! empty( $persons ) ) {
+			$lyricist = get_post_meta( $post->ID, 'wsl_lyricist', true );
+			// Display the form, using the current value.
+			?>
+			<label for="wsl_lyricist">Select Lyricist</label>
+			<select name="wsl_lyricist">
+				<option value="0">Select</option>
+				<?php
+				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+
+				foreach ( $option_values as $key => $value ) {
+					if ( $key == $lyricist ) {
+						?>
+						<option selected value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php
+					} else {
+						?>
+						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php
+					}
+				}
+				?>
+			</select>
+			<?php
+		} else {
+			echo 'Please tag persons in the person metabox to select Lyricist.';
+		}
 	}
 
 	public function build_year_metabox( $post ) {
