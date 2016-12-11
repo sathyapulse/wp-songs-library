@@ -196,9 +196,10 @@ class Wp_Songs_Library {
 
 		// Hook into the init action and call register_song_taxonomies when it fires.
 		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_album_taxonomy' );
-		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_person_taxonomy' );
+		$this->loader->add_action( 'init', $plugin_taxonomy, 'register_artist_taxonomy' );
 
 		$this->loader->add_action( 'save_post_album', $plugin_taxonomy, 'insert_album_taxonomy', 10, 3 );
+		$this->loader->add_action( 'save_post_artist', $plugin_taxonomy, 'insert_artist_taxonomy', 10, 3 );
 	}
 
 	/**
@@ -211,7 +212,7 @@ class Wp_Songs_Library {
 		$this->loader->add_action( 'add_meta_boxes_song', $plugin_metabox, 'register_song_metaboxes' );
 
 		$this->loader->add_action( 'save_post_album', $plugin_metabox, 'save_album_meta', 10, 3 );
-        $this->loader->add_action( 'save_post_song', $plugin_metabox, 'save_song_meta', 10, 3 );
+		$this->loader->add_action( 'save_post_song', $plugin_metabox, 'save_song_meta', 10, 3 );
 	}
 
 	/**
@@ -222,6 +223,7 @@ class Wp_Songs_Library {
 
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_album_cpt' );
+		$this->loader->add_action( 'init', $plugin_cpt, 'register_artist_cpt' );
 	}
 
 	/**

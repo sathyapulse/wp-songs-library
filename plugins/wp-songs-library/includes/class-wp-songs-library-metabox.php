@@ -84,7 +84,7 @@ class Wp_Songs_Library_Metabox {
 		<div>
 			<span>Song location</span>
 			<input type="text" name="wsl_song_location" id="wsl_song_location" size="50" value="<?php echo esc_url( get_post_meta( $post->ID, 'wsl_song_location', true ) ); ?>" placeholder="Song URL">
-			<input type="button" id="wsl_upload_song", value="Upload/Select song">
+			<input type="button" id="wsl_upload_song" class="button" value="Upload/Select song">
 		</div>
 		<?php
 	}
@@ -227,9 +227,9 @@ class Wp_Songs_Library_Metabox {
 
 	public function build_director_metabox( $post ) {
 		// Use get_post_meta to retrieve an existing value from the database.
-		$persons = get_the_terms( $post->ID, 'person' );
+		$artists = get_the_terms( $post->ID, 'artist' );
 
-		if ( ! empty( $persons ) ) {
+		if ( ! empty( $artists ) ) {
 			$director = get_post_meta( $post->ID, 'wsl_director', true );
 			// Display the form, using the current value.
 			?>
@@ -237,7 +237,7 @@ class Wp_Songs_Library_Metabox {
 			<select name="wsl_director">
 				<option value="0">Select</option>
 				<?php
-				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+				$option_values = wp_list_pluck( $artists, 'name', 'term_id' );
 
 				foreach ( $option_values as $key => $value ) {
 					if ( $key == $director ) {
@@ -254,15 +254,15 @@ class Wp_Songs_Library_Metabox {
 			</select>
 			<?php
 		} else {
-			echo 'Please tag persons in the person metabox to select Director.';
+			echo 'Please tag artists in the artist metabox to select Director.';
 		}
 	}
 
 	public function build_music_director_metabox( $post ) {
 		// Use get_post_meta to retrieve an existing value from the database.
-		$persons = get_the_terms( $post->ID, 'person' );
+		$artists = get_the_terms( $post->ID, 'artist' );
 
-		if ( ! empty( $persons ) ) {
+		if ( ! empty( $artists ) ) {
 			$music_director = get_post_meta( $post->ID, 'wsl_music_director', true );
 			// Display the form, using the current value.
 			?>
@@ -270,7 +270,7 @@ class Wp_Songs_Library_Metabox {
 			<select name="wsl_music_director">
 				<option value="0">Select</option>
 				<?php
-				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+				$option_values = wp_list_pluck( $artists, 'name', 'term_id' );
 
 				foreach ( $option_values as $key => $value ) {
 					if ( $key == $music_director ) {
@@ -287,15 +287,15 @@ class Wp_Songs_Library_Metabox {
 			</select>
 			<?php
 		} else {
-			echo 'Please tag persons in the person metabox to select Music Director.';
+			echo 'Please tag artists in the artist metabox to select Music Director.';
 		}
 	}
 
 	public function build_artists_metabox( $post ) {
-		$persons = get_the_terms( $post->ID, 'person' );
+		$artists = get_the_terms( $post->ID, 'artist' );
 
-		if ( ! empty( $persons ) ) {
-			$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+		if ( ! empty( $artists ) ) {
+			$option_values = wp_list_pluck( $artists, 'name', 'term_id' );
 			$artists = get_post_meta( $post->ID, 'wsl_artists', true );
 			?>
 			<label for="wsl_artists">Select Artists</label>
@@ -312,15 +312,15 @@ class Wp_Songs_Library_Metabox {
 				}
 			}
 		} else {
-			echo 'Please tag persons in the person metabox to select Artists.';
+			echo 'Please tag artists in the artist metabox to select Artists.';
 		}
 	}
 
 	public function build_lyricist_metabox( $post ) {
 		// Use get_post_meta to retrieve an existing value from the database.
-		$persons = get_the_terms( $post->ID, 'person' );
+		$artists = get_the_terms( $post->ID, 'artist' );
 
-		if ( ! empty( $persons ) ) {
+		if ( ! empty( $artists ) ) {
 			$lyricist = get_post_meta( $post->ID, 'wsl_lyricist', true );
 			// Display the form, using the current value.
 			?>
@@ -328,7 +328,7 @@ class Wp_Songs_Library_Metabox {
 			<select name="wsl_lyricist">
 				<option value="0">Select</option>
 				<?php
-				$option_values = wp_list_pluck( $persons, 'name', 'term_id' );
+				$option_values = wp_list_pluck( $artists, 'name', 'term_id' );
 
 				foreach ( $option_values as $key => $value ) {
 					if ( $key == $lyricist ) {
@@ -345,7 +345,7 @@ class Wp_Songs_Library_Metabox {
 			</select>
 			<?php
 		} else {
-			echo 'Please tag persons in the person metabox to select Lyricist.';
+			echo 'Please tag artists in the artist metabox to select Lyricist.';
 		}
 	}
 

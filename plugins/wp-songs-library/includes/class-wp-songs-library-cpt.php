@@ -102,4 +102,41 @@ class Wp_Songs_Library_Cpt {
 
 		register_post_type( 'album', $args );
 	}
+
+	public function register_artist_cpt() {
+		$labels = array(
+			'name'               => _x( 'Artists', 'post type general name', 'wp-songs-library' ),
+			'singular_name'      => _x( 'Artist', 'post type singular name', 'wp-songs-library' ),
+			'menu_name'          => _x( 'Artists', 'admin menu', 'wp-songs-library' ),
+			'name_admin_bar'     => _x( 'Artist', 'add new on admin bar', 'wp-songs-library' ),
+			'add_new'            => _x( 'Add New', 'artist', 'wp-songs-library' ),
+			'add_new_item'       => __( 'Add New Artist', 'wp-songs-library' ),
+			'new_item'           => __( 'New Artist', 'wp-songs-library' ),
+			'edit_item'          => __( 'Edit Artist', 'wp-songs-library' ),
+			'view_item'          => __( 'View Artist', 'wp-songs-library' ),
+			'all_items'          => __( 'All Artists', 'wp-songs-library' ),
+			'search_items'       => __( 'Search Artists', 'wp-songs-library' ),
+			'parent_item_colon'  => __( 'Parent Artists:', 'wp-songs-library' ),
+			'not_found'          => __( 'No artists found.', 'wp-songs-library' ),
+			'not_found_in_trash' => __( 'No artists found in Trash.', 'wp-songs-library' ),
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'description'        => __( 'Description.', 'wp-songs-library' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'artist' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'comments' ),
+		);
+
+		register_post_type( 'artist', $args );
+	}
 }
