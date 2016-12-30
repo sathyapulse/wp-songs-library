@@ -121,7 +121,7 @@ class Wp_Songs_Library_Taxonomy {
 				'slug' => $post->post_name,
 			]);
 
-			add_post_meta( $post_id, 'wsl_album_term_id', $term['term_id'] );
+			add_metadata( 'album', $post_id, 'wsl_album_term_id', $term['term_id'] );
 		}
 	}
 

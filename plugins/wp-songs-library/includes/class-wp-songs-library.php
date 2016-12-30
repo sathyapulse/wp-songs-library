@@ -80,6 +80,7 @@ class Wp_Songs_Library {
 		$this->register_metabox();
 		$this->register_cpt();
 
+		$this->define_custom_tables( $this );
 	}
 
 	/**
@@ -224,6 +225,16 @@ class Wp_Songs_Library {
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_album_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_artist_cpt' );
+	}
+
+	public function register_custom_tables() {
+		global $wpdb;
+
+		$wpdb->albummeta = $wpdb->prefix . 'albummeta';
+	}
+
+	private function define_custom_tables( $that ) {
+		$this->loader->add_action( 'plugins_loaded', $that, 'register_custom_tables' );
 	}
 
 	/**
