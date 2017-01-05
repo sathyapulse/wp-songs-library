@@ -1,3 +1,9 @@
 [submodule "mu-plugins"]
 	path = mu-plugins
 	url = https://github.com/Automattic/vip-mu-plugins-public.git
+[submodule "themes/wp-songs-library/library/video.js"]
+	path = themes/wp-songs-library/library/video.js
+	url = https://github.com/videojs/video.js.git
+[submodule "themes/wp-songs-library/library/shortcake"]
+	path = themes/wp-songs-library/library/shortcake
+	url = https://github.com/wp-shortcake/shortcake.git
