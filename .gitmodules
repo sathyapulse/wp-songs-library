@@ -7,3 +7,6 @@
 [submodule "plugins/wp-songs-library/library/shortcake"]
 	path = plugins/wp-songs-library/library/shortcake
 	url = https://github.com/wp-shortcake/shortcake.git
+[submodule "plugins/shortcake"]
+	path = plugins/shortcake
+	url = https://github.com/wp-shortcake/shortcake.git
