@@ -21,7 +21,6 @@
  * @author     Sathiyamoorthy <sathyapulse@gmail.com>
  */
 class Wp_Songs_Library_Activator {
-
 	/**
 	 * Short Description. (use period)
 	 *
@@ -30,28 +29,6 @@ class Wp_Songs_Library_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		self::create_custom_table();
+		Wp_Songs_Library_Custom_Table::create_custom_tables();
 	}
-
-	private function create_custom_table() {
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'albummeta';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $table_name (
-			meta_id bigint(20) NOT NULL AUTO_INCREMENT,
-			album_id bigint(20) DEFAULT 0 NOT NULL,
-			meta_key varchar(255),
-			meta_value longtext,
-			PRIMARY KEY (meta_id),
-			INDEX (album_id),
-			INDEX (meta_key)
-		) $charset_collate;";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
-	}
-
 }
