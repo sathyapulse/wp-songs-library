@@ -76,11 +76,11 @@ class Wp_Songs_Library {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$this->register_taxonomy();
-		$this->register_metabox();
-		$this->register_cpt();
+		$this->define_taxonomy_hooks();
+		$this->define_metabox_hooks();
+		$this->define_cpt_hooks();
 
-		$this->define_custom_tables( $this );
+		$this->define_custom_tables();
 	}
 
 	/**
@@ -139,6 +139,11 @@ class Wp_Songs_Library {
 		 */
 		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cpt.php';
 
+		/**
+		 * Registers the Custom table for the album meta.
+		 */
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-custom-table.php';
+
 		$this->loader = new Wp_Songs_Library_Loader();
 
 	}
@@ -192,7 +197,7 @@ class Wp_Songs_Library {
 
 	}
 
-	private function register_taxonomy() {
+	private function define_taxonomy_hooks() {
 		$plugin_taxonomy = new Wp_Songs_Library_Taxonomy( $this->get_plugin_name(), $this->get_version() );
 
 		// Hook into the init action and call register_song_taxonomies when it fires.
@@ -206,7 +211,7 @@ class Wp_Songs_Library {
 	/**
 	 * Registers the metabox.
 	 */
-	private function register_metabox() {
+	private function define_metabox_hooks() {
 		$plugin_metabox = new Wp_Songs_Library_Metabox( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'add_meta_boxes_album', $plugin_metabox, 'register_album_metaboxes' );
@@ -219,7 +224,7 @@ class Wp_Songs_Library {
 	/**
 	 * Registers the custom post types.
 	 */
-	private function register_cpt() {
+	private function define_cpt_hooks() {
 		$plugin_cpt = new Wp_Songs_Library_Cpt( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
@@ -227,14 +232,10 @@ class Wp_Songs_Library {
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_artist_cpt' );
 	}
 
-	public function register_custom_tables() {
-		global $wpdb;
+	private function define_custom_tables() {
+		$plugin_custom_table = new Wp_Songs_Library_Custom_Table( $this->get_plugin_name(), $this->get_version() );
 
-		$wpdb->albummeta = $wpdb->prefix . 'albummeta';
-	}
-
-	private function define_custom_tables( $that ) {
-		$this->loader->add_action( 'plugins_loaded', $that, 'register_custom_tables' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_custom_table, 'register_custom_tables' );
 	}
 
 	/**
