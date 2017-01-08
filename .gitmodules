@@ -4,9 +4,6 @@
 [submodule "plugins/wp-songs-library/library/video.js"]
 	path = plugins/wp-songs-library/library/video.js
 	url = https://github.com/videojs/video.js.git
-[submodule "plugins/wp-songs-library/library/shortcake"]
-	path = plugins/wp-songs-library/library/shortcake
-	url = https://github.com/wp-shortcake/shortcake.git
 [submodule "plugins/shortcake"]
 	path = plugins/shortcake
 	url = https://github.com/wp-shortcake/shortcake.git
