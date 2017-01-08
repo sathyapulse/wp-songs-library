@@ -43,7 +43,7 @@
 
 
 				 //var all = JSON.stringify( attachment );
-				 //var id = attachment.id;
+				 var id = attachment.id;
 				 //var title = attachment.title;
 				 //var filename = attachment.filename;
 				 var url = attachment.url;
@@ -64,9 +64,11 @@
 				 //var editLink = attachment.editLink;
 				 //var fileLength = attachment.fileLength;
 
-				 var field = document.getElementById("wsl_song_location");
+				 var attachment_url_field = document.getElementById( 'wsl_song_location' );
+				 var attachment_id_field = document.getElementById( 'wsl_song_attachment_id' );
 
-				 field.value = url; //set which variable you want the field to have
+                 attachment_url_field.value = url; //set which variable you want the field to have
+                 attachment_id_field.value = id;
 			 });
 
 			 // Finally, open the modal

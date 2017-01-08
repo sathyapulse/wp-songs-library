@@ -3,7 +3,7 @@
 /**
  * Class Wp_Songs_Library_Taxonomy
  */
-class Wp_Songs_Library_Taxonomy {
+class Wp_Songs_Library_Taxonomy extends Wp_Songs_Library_Utilities {
 	/**
 	 * The ID of this plugin.
 	 *
@@ -121,7 +121,7 @@ class Wp_Songs_Library_Taxonomy {
 				'slug' => $post->post_name,
 			]);
 
-			add_metadata( 'album', $post_id, 'wsl_album_term_id', $term['term_id'] );
+			$this->add_album_meta( $post_id, 'wsl_album_term_id', $term['term_id'] );
 		}
 	}
 

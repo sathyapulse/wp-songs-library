@@ -2,3 +2,21 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+.wsl_album_songs_list {
+    background: #000;
+    cursor: pointer;
+    font-weight: bold;
+    list-style: none;
+    color: #fff;
+}
+
+.wsl_album_songs_list li {
+    padding: 5px;
+    border-top: 2px solid #fff;
+    position: relative;
+}
+
+.wsl_album_songs_list li:hover {
+    background: #fff;
+    color: #000;
+}

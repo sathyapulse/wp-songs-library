@@ -10,11 +10,27 @@
 	 * of this function.
 	 *
 	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
+	 */
+	 $(function() {
+		var videojs_obj = videojs( document.getElementById('wsl_album_player') );
+	 	$( '.wsl_album_songs_list' ).find('li').on('click', function () {
+			if( this.getAttribute('song_post_id') != $('#wsl_album_player').attr('song_post_id') ) {
+
+                videojs_obj.src( [
+					{
+						type: this.getAttribute('type'),
+						src: this.getAttribute('song_location')
+					}
+				] );
+                videojs_obj.load();
+                videojs_obj.play();
+
+                $('#wsl_album_player').attr('song_post_id', this.getAttribute('song_post_id'))
+			}
+		})
+	 });
+
+	/**
 	 * When the window is loaded:
 	 *
 	 * $( window ).load(function() {

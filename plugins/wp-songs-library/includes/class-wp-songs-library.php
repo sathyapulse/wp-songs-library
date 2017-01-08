@@ -71,6 +71,11 @@ class Wp_Songs_Library {
 		$this->plugin_name = 'wp-songs-library';
 		$this->version = '1.0.0';
 
+		/**
+		 * Stores the plugin path in the constant variable.
+		 */
+		define( 'WSL_PLUGIN_PATH', plugin_dir_url( dirname( __FILE__ ) ) );
+
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
@@ -79,6 +84,7 @@ class Wp_Songs_Library {
 		$this->define_taxonomy_hooks();
 		$this->define_metabox_hooks();
 		$this->define_cpt_hooks();
+		$this->define_shortcode_hooks();
 
 		$this->define_custom_tables();
 	}
@@ -100,7 +106,6 @@ class Wp_Songs_Library {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
@@ -125,27 +130,41 @@ class Wp_Songs_Library {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-songs-library-public.php';
 
 		/**
+		 * The class responsible for defining all the utility functions used in the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-utilities.php';
+
+		/**
 		 * Registers the Taxonomies for the songs and albums.
 		 */
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-taxonomy.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-taxonomy.php';
 
 		/**
 		 * Registers the Metaboxes for the songs and albums.
 		 */
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-metabox.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-metabox.php';
 
 		/**
 		 * Registers the Custom Post Type for the songs and albums.
 		 */
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cpt.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cpt.php';
 
 		/**
 		 * Registers the Custom table for the album meta.
 		 */
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-custom-table.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-custom-table.php';
+
+		/**
+		 * Registers the Shortcode for the song and album.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-shortcode.php';
+
+		/**
+		 * The class is responsible for defining all the custom query.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-query.php';
 
 		$this->loader = new Wp_Songs_Library_Loader();
-
 	}
 
 	/**
@@ -230,6 +249,19 @@ class Wp_Songs_Library {
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_song_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_album_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'register_artist_cpt' );
+	}
+
+	/**
+	 * Registers the Shortcode hooks.
+	 */
+	private function define_shortcode_hooks() {
+		$plugin_shortcode = new Wp_Songs_Library_Shortcode( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'init', $plugin_shortcode, 'register_album_shortcode' );
+		$this->loader->add_action( 'init', $plugin_shortcode, 'register_song_shortcode' );
+
+		$this->loader->add_filter( 'the_content', $plugin_shortcode, 'add_album_shortcode_to_album_post' );
+		$this->loader->add_filter( 'the_content', $plugin_shortcode, 'add_song_shortcode_to_song_post' );
 	}
 
 	private function define_custom_tables() {

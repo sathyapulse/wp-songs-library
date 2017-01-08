@@ -84,6 +84,7 @@ class Wp_Songs_Library_Metabox {
 		<div>
 			<span>Song location</span>
 			<input type="text" name="wsl_song_location" id="wsl_song_location" size="50" value="<?php echo esc_url( get_post_meta( $post->ID, 'wsl_song_location', true ) ); ?>" placeholder="Song URL">
+			<input type="hidden" name="wsl_song_attachment_id" id="wsl_song_attachment_id" size="50" value="<?php echo esc_attr( get_post_meta( $post->ID, 'wsl_song_attachment_id', true ) ); ?>">
 			<input type="button" id="wsl_upload_song" class="button" value="Upload/Select song">
 		</div>
 		<?php
@@ -212,6 +213,7 @@ class Wp_Songs_Library_Metabox {
 
 		// Sanitize the user input.
 		$song_location = esc_url_raw( $_POST['wsl_song_location'] );
+		$song_attachment_id = sanitize_text_field( $_POST['wsl_song_attachment_id'] );
 		$music_director = $_POST['wsl_music_director'];
 		$artists = $_POST['wsl_artists'];
 		$lyricist = $_POST['wsl_lyricist'];
@@ -219,6 +221,7 @@ class Wp_Songs_Library_Metabox {
 
 		// Update the meta field.
 		update_post_meta( $post_id, 'wsl_song_location', $song_location );
+		update_post_meta( $post_id, 'wsl_song_attachment_id', $song_attachment_id );
 		update_post_meta( $post_id, 'wsl_music_director', $music_director );
 		update_post_meta( $post_id, 'wsl_artists', $artists );
 		update_post_meta( $post_id, 'wsl_lyricist', $lyricist );

@@ -75,6 +75,10 @@ class Wp_Songs_Library_Public {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-songs-library-public.css', array(), $this->version, 'all' );
 
+		/**
+		 * Includes the video js CSS in the front end.
+		 */
+		wp_enqueue_style( $this->plugin_name . '-video.js-css', WSL_PLUGIN_PATH . 'library/video.js/dist/video-js.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -98,6 +102,10 @@ class Wp_Songs_Library_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-songs-library-public.js', array( 'jquery' ), $this->version, false );
 
+		/**
+		 * Includes the video js JavaScript in the front end.
+		 */
+		wp_enqueue_script( $this->plugin_name . '-video.js-js', WSL_PLUGIN_PATH . 'library/video.js/dist/video.min.js', array(), $this->version, false );
 	}
 
 }
