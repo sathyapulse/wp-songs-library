@@ -157,7 +157,7 @@ class Wp_Songs_Library {
 		/**
 		 * Registers the Shortcode for the song and album.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-shortcode.php';
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-shortcode.php';
 
 		/**
 		 * The class is responsible for defining all the custom query.
