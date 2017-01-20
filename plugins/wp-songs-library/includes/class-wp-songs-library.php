@@ -87,6 +87,7 @@ class Wp_Songs_Library {
 		$this->define_shortcode_hooks();
 
 		$this->define_custom_tables();
+		$this->define_cli_command();
 	}
 
 	/**
@@ -163,6 +164,13 @@ class Wp_Songs_Library {
 		 * The class is responsible for defining all the custom query.
 		 */
 		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-query.php';
+
+		/**
+		 * The class is responsible for defining all the CLI commands.
+		 */
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-cli.php';
+		}
 
 		$this->loader = new Wp_Songs_Library_Loader();
 	}
@@ -268,6 +276,12 @@ class Wp_Songs_Library {
 		$plugin_custom_table = new Wp_Songs_Library_Custom_Table( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_custom_table, 'register_custom_tables' );
+	}
+
+	private function define_cli_command() {
+		if ( class_exists( 'Wp_Songs_Library_Cli' ) ) {
+			$plugin_cli = new Wp_Songs_Library_Cli( $this->get_plugin_name(), $this->get_version() );
+		}
 	}
 
 	/**
