@@ -162,7 +162,7 @@ class Wp_Songs_Library {
 		/**
 		 * The class is responsible for defining all the custom query.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-query.php';
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-songs-library-query.php';
 
 		$this->loader = new Wp_Songs_Library_Loader();
 	}
